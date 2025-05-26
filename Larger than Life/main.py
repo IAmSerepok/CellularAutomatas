@@ -6,7 +6,13 @@ from copy import deepcopy
 from colorsys import hsv_to_rgb
 from numba import prange
 
-from general.neighborhood import neighborhood_funcs
+import sys
+from pathlib import Path
+
+general_path = Path(__file__).parent.parent / "general"
+sys.path.append(str(general_path))
+
+from neighborhood import neighborhood_funcs
 
 
 class App:
