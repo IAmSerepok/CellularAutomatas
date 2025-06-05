@@ -13,11 +13,12 @@ general_path = Path(__file__).parent.parent / "general"
 sys.path.append(str(general_path))
 
 from neighborhood import neighborhood_funcs
+from save import save_screen
 
 
 class App:
     def __init__(
-            self, columns=200, rows=200, tile_size=3,
+            self, columns=960, rows=540, tile_size=2,
             fps=60, random_field=False, probability=0.5, speed=2,
             cmap=None
     ):
@@ -55,14 +56,14 @@ class App:
     def check_cell(self, current_field_, x, y):
         count = neighborhood_funcs['M'](current_field_, x, y, 1, self.radius)
 
-        val = current_field_[y][x]
+        val = current_field_[x][y]
         if val == 1:
             if self.mid:
                 count += 1
             if (self.rule_s[0] <= count) and (count <= self.rule_s[1]):
                 return 1
             return (val + 1) % self.generations
-        elif current_field_[y][x] == 0:
+        elif current_field_[x][y] == 0:
             if (self.rule_b[0] <= count) and (count <= self.rule_b[1]):
                 return 1
             return 0
@@ -88,6 +89,9 @@ class App:
     def generate_colors(self):
         if self.cmap is None:
             self.colors = [(0, 0, 0)] * (self.generations - 1) + [(255, 255, 255)]
+            return
+        elif len(self.cmap) == self.generations:
+            self.colors = self.cmap
             return
         start_color, end_color = self.cmap
         colors = []
@@ -135,7 +139,7 @@ class App:
 
 
 if __name__ == '__main__':
-    app = App(random_field=True, probability=0.4, tile_size=4, speed=1,
-              cmap=[(130/350, 1.0, 0.4), (113/360, 0.0, 1.0)])
-    app.set_rules(5, 2, False, (34, 45), (33, 57))
+    app = App(random_field=True, probability=0.7, speed=1, 
+              cmap=[(0/360, 1.0, 0.7), (60/360, 1.0, 0.0)])
+    app.set_rules(45, 2, False, (2500, 4973), (2284, 4922))
     app.run(grid_visible=False)

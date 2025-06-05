@@ -8,10 +8,18 @@ from numba import prange
 
 from hensel import hensel
 
+import sys
+from pathlib import Path
+
+general_path = Path(__file__).parent.parent / "general"
+sys.path.append(str(general_path))
+
+from save import save_screen
+
 
 class App:
     def __init__(
-            self, columns=250, rows=250, tile_size=3, fps=60,
+            self, columns=200, rows=200, tile_size=4, fps=60,
             random_field=False, probability=0.5, speed=1
     ):
         pg.init()
@@ -54,12 +62,12 @@ class App:
                         x0 = 0
                     if y0 >= self.rows:
                         y0 = 0
-                    if current_field_[y0][x0]:
+                    if current_field_[x0][y0]:
                         count += 1
                         binary += 2 ** index
                     index += 1
 
-        if current_field_[y][x]:
+        if current_field_[x][y]:
             try:
                 for letter in self.rule_s[str(count)]:
                     if binary in hensel[letter][str(count)]:
@@ -112,7 +120,7 @@ class App:
     def draw_life(self, grid_visible):
         for x in range(self.columns):
             for y in range(self.rows):
-                if self.current_field[y][x]:
+                if self.current_field[x][y]:
                     size = self.tile_size
                     if grid_visible:
                         pg.draw.rect(self.screen, self.color, (x * size + 2,
@@ -121,7 +129,7 @@ class App:
                         pg.draw.rect(self.screen, self.color, (x * size,
                                                                y * size, size, size))
                 if ((self.time % self.speed) == 0) and self.running:
-                    self.next_field[y][x] = self.check_cell(self.current_field, x, y)
+                    self.next_field[x][y] = self.check_cell(self.current_field, x, y)
 
     def run(self, grid_visible):
         while True:
@@ -151,5 +159,5 @@ if __name__ == "__main__":
     for i in range(80):
         for j in range(80):
             if random() < 0.5:
-                app.current_field[app.rows // 2 - 40 + i][app.columns // 2 - 40 + j] = 1
+                app.current_field[app.columns // 2 - 40 + j, app.rows // 2 - 40 + i] = 1
     app.run(grid_visible=False)

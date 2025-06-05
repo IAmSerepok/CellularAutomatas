@@ -13,6 +13,7 @@ general_path = Path(__file__).parent.parent / "general"
 sys.path.append(str(general_path))
 
 from neighborhood import neighborhood_funcs
+from save import save_screen
 
 
 class App:
@@ -128,6 +129,6 @@ class App:
 
 if __name__ == '__main__':
     app = App(random_field=True, probability=0.2, speed=1,
-              cmap=[(50/360, 0.0, 1.0), (20/360, 1.0, 0.8)])
+              cmap=[(250/360, 1.0, 0.0), (220/360, 1.0, 0.7)])
     app.set_rules([4, 5, 8], [0, 1, 2, 3, 4, 5], 8)
     app.run(grid_visible=False)

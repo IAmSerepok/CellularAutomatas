@@ -6,10 +6,18 @@ from copy import deepcopy
 from colorsys import hsv_to_rgb
 from numba import prange, jit
 
+import sys
+from pathlib import Path
+
+general_path = Path(__file__).parent.parent / "general"
+sys.path.append(str(general_path))
+
+from save import save_screen
+
 
 class App:
     def __init__(
-            self, columns=201, rows=201, tile_size=4,
+            self, columns=480, rows=270, tile_size=4,
             fps=60, random_field=False, probability=0.5, speed=2,
             cmap=None
     ):
@@ -137,7 +145,7 @@ class App:
 
 if __name__ == '__main__':
     app = App(random_field=False, probability=0.5, speed=1,
-              cmap=[(238/350, 1.0, 0.4), (358/360, 0.0, 1.0)])
+              cmap=[(80/360, 1.0, 0.7), (60/360, 1.0, 0.0)])
     app.set_rules(
         1, 3, [1, 3, 5, 7, 9, 11, 13, 15], [1, 3, 5, 7, 9, 11, 13, 15],
         np.array([

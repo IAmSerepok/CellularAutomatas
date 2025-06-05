@@ -13,11 +13,12 @@ general_path = Path(__file__).parent.parent / "general"
 sys.path.append(str(general_path))
 
 from neighborhood import neighborhood_funcs
+from save import save_screen
 
 
 class App:
     def __init__(
-            self, columns=200, rows=200, tile_size=3,
+            self, columns=200, rows=200, tile_size=2,
             fps=60, random_field=False, probability=0.5, speed=2,
             cmap=None
     ):
@@ -121,7 +122,7 @@ class App:
 
 
 if __name__ == '__main__':
-    app = App(random_field=True, probability=0.5, speed=1,
-              cmap=[(358/360, 1.0, 0.4), (50/360, 0.0, 1.0)])
-    app.set_rules([2], [2], 25)
+    app = App(random_field=True, probability=0.3, speed=1,
+              cmap=[(330/360, 1.0, 0.8), (360/360, 1.0, 0.0)])
+    app.set_rules([1, 3], [2], 21)
     app.run(grid_visible=False)

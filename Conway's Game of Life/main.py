@@ -13,6 +13,7 @@ general_path = Path(__file__).parent.parent / "general"
 sys.path.append(str(general_path))
 
 from neighborhood import neighborhood_funcs
+from save import save_screen
 
 
 class App:
@@ -29,7 +30,7 @@ class App:
         self.rule_b, self.rule_s = None, None
 
         self.FPS = fps
-        self.speed = 2
+        self.speed = 1
         self.time = 0
         self.running = True
 
@@ -114,6 +115,6 @@ class App:
 
 
 if __name__ == "__main__":
-    app = App(random_field=True, probability=0.5)
-    app.set_rules([3], [2, 3])
+    app = App(random_field=True, probability=0.4)
+    app.set_rules([3], [4, 5, 6, 7, 8])
     app.run(grid_visible=False)

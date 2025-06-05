@@ -6,9 +6,17 @@ from numba import prange
 from math import ceil
 from colorsys import hsv_to_rgb
 
+import sys
+from pathlib import Path
+
+general_path = Path(__file__).parent.parent / "general"
+sys.path.append(str(general_path))
+
+from save import save_screen
+
 
 class App:
-    def __init__(self, columns=250, rows=250, tile_size=3, fps=60, speed=1, max_val=4, cmap=None, rule=None):
+    def __init__(self, columns=480, rows=540, tile_size=2, fps=60, speed=1, cmap=None, rule=None):
         pg.init()
 
         self.tile_size = tile_size
@@ -67,8 +75,8 @@ class App:
                 self.next_field[i, j] += self.rule[i - x + self.radius, j - y + self.radius]
 
     def drop_fast(self, x, y):
-        delta = self.current_field[y][x] // self.max_val
-        new = self.current_field[y][x] % self.max_val
+        delta = self.current_field[x][y] // self.max_val
+        new = self.current_field[x][y] % self.max_val
         self.next_field[x, y] = new
         for i in range(x - self.radius, x + self.radius + 1):
             for j in range(y - self.radius, y + self.radius + 1):
@@ -120,13 +128,13 @@ class App:
 
 if __name__ == "__main__":
     app = App(
-        speed=1, cmap=[(100/350, 1.0, 0.0), (70/360, 1.0, 1.0)],
+        speed=1, cmap=[(60/360, 1.0, 0.0), (80/360, 1.0, 0.7)],
         rule=[
+            [2, 1, 2],
             [1, 0, 1],
-            [1, 0, 1],
-            [1, 0, 1]
+            [2, 1, 2]
         ]
         )
-    # app.current_field[app.rows // 2][app.columns // 2] = 10 ** 9
-    for delta in range(app.columns // 2): app.current_field[app.columns // 4 + delta, app.rows // 2] = 10 ** 6
+    app.current_field[app.columns // 2][app.rows // 2] = 10 ** 9
+    # for delta in range(app.columns // 2): app.current_field[app.columns // 4 + delta, app.rows // 2] = 10 ** 9
     app.run(fast=False)

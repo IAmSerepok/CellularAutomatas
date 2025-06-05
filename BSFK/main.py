@@ -13,11 +13,12 @@ general_path = Path(__file__).parent.parent / "general"
 sys.path.append(str(general_path))
 
 from neighborhood import neighborhood_funcs
+from save import save_screen
 
 
 class App:
     def __init__(
-            self, columns=200, rows=200, tile_size=4, fps=60,
+            self, columns=200, rows=200, tile_size=5, fps=60,
             random_field=False, probability=0.5
     ):
         pg.init()
@@ -29,7 +30,7 @@ class App:
         self.rule_b, self.rule_s, self.rule_f, self.rule_k, self.rule_l = None, None, None, None, None
 
         self.FPS = fps
-        self.speed = 2
+        self.speed = 1
         self.time = 0
         self.running = True
         self.colors = None
@@ -124,6 +125,6 @@ class App:
 
 if __name__ == "__main__":
     app = App(random_field=True, probability=0.1)
-    app.set_colors((255, 255, 255), (50, 200, 50), (10, 100, 10))
+    app.set_colors((0, 0, 0), (255, 36, 36), (215, 36, 255))
     app.set_rules([2, 6, 7], [3, 4, 5], [0, 2, 7, 8], [6, 7, 7], [0, 1, 2, 8])
     app.run(grid_visible=False)
